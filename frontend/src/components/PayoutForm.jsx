@@ -1,5 +1,5 @@
 import { useState } from "react";
-import api from "../api";
+import axios from "axios";
 
 export default function PayoutForm({ merchantId, refresh }) {
   const [amount, setAmount] = useState("");
@@ -14,19 +14,17 @@ export default function PayoutForm({ merchantId, refresh }) {
     setLoading(true);
 
     try {
-      const uuid = crypto.randomUUID();
-
-      await api.post(
-        "/api/v1/payouts",
+      await axios.post(
+        "https://play-to.onrender.com/api/v1/payouts",
         {
           merchant_id: merchantId,
           amount_paise: Math.floor(Number(amount) * 100),
-          bank_account_id: "bank_test_001" // FIXED
+          bank_account_id: "bank_test_001"
         },
         {
           headers: {
-            "Idempotency-Key": uuid,
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "Idempotency-Key": crypto.randomUUID()
           }
         }
       );
@@ -35,6 +33,7 @@ export default function PayoutForm({ merchantId, refresh }) {
       setAmount("");
       refresh();
     } catch (err) {
+      console.log(err.response?.data || err.message);
       alert(err.response?.data?.error || "Something went wrong");
     } finally {
       setLoading(false);
