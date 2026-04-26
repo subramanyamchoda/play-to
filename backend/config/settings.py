@@ -1,6 +1,7 @@
 from pathlib import Path
 import os
 from decouple import config
+from corsheaders.defaults import default_headers
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -39,7 +40,7 @@ INSTALLED_APPS = [
 
 
 # ========================
-# MIDDLEWARE
+# MIDDLEWARE (IMPORTANT ORDER FIXED)
 # ========================
 
 MIDDLEWARE = [
@@ -87,6 +88,7 @@ WSGI_APPLICATION = "config.wsgi.application"
 # ========================
 # DATABASE (POSTGRESQL)
 # ========================
+
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
@@ -97,6 +99,7 @@ DATABASES = {
         "PORT": config("DB_PORT"),
     }
 }
+
 
 # ========================
 # PASSWORD VALIDATION
@@ -143,14 +146,21 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
 # ========================
-# CORS CONFIG
+# CORS CONFIG (FIXED)
 # ========================
 
 CORS_ALLOW_ALL_ORIGINS = True
 
+CORS_ALLOW_CREDENTIALS = True
+
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "https://play-to-rho.vercel.app",
+]
+
+# 🔥 FIX: allow your custom header
+CORS_ALLOW_HEADERS = list(default_headers) + [
+    "idempotency-key",
 ]
 
 
