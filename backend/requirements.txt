@@ -1,0 +1,27 @@
+# requirements.txt
+
+Django==5.0.6
+djangorestframework==3.15.2
+django-cors-headers==4.4.0
+
+# PostgreSQL
+psycopg2-binary==2.9.9
+
+# Background Jobs
+celery==5.4.0
+redis==5.0.7
+
+# Environment Variables
+django-environ==0.11.2
+
+# Production Server
+gunicorn==22.0.0
+whitenoise==6.7.0
+
+# Testing
+pytest==8.2.2
+pytest-django==4.8.0
+
+# Date / Time
+python-dateutil==2.9.0.post0
+pytz==2024.1
