@@ -1,9 +1,6 @@
 from pathlib import Path
 import os
 from decouple import config
-from dotenv import load_dotenv
-
-load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -13,6 +10,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # ========================
 
 SECRET_KEY = config("SECRET_KEY", default="dev-secret-key-change-me")
+
 DEBUG = config("DEBUG", default=False, cast=bool)
 
 ALLOWED_HOSTS = ["*"]
@@ -46,6 +44,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
+
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
 
@@ -124,7 +123,7 @@ USE_TZ = True
 
 
 # ========================
-# STATIC & MEDIA
+# STATIC FILES
 # ========================
 
 STATIC_URL = "/static/"
@@ -132,6 +131,10 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
+
+
+# WhiteNoise (production static handling)
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 
 # ========================
@@ -142,7 +145,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
 # ========================
-# CORS
+# CORS CONFIG
 # ========================
 
 CORS_ALLOW_ALL_ORIGINS = True
